@@ -1,66 +1,70 @@
-## Foundry
+# FundMe
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+The **FundMe** smart contract is a decentralized crowdfunding application built on Ethereum. This project includes the smart contract code, deployment script, helper configuration, and test suite.
 
-Foundry consists of:
+## Project Structure
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- **`FundMe.sol`**: Core contract implementing funding and withdrawal functions. It verifies the minimum funding threshold based on real-time ETH/USD prices fetched from Chainlink's price feed.
 
-## Documentation
+- **`FundMe.s.sol`**: Deployment script for the `FundMe` contract, utilizing `HelperConfig` to select the appropriate price feed address.
+  
+- **`HelperConfig.sol`**: Configures data feeds for different networks and deploys a mock aggregator for local testing.
+  
+- **`FundMe.t.sol`**: Test suite containing unit tests to validate contract functionalities.
 
-https://book.getfoundry.sh/
+## Requirements
 
-## Usage
+- Solidity `0.8.28`
+- Chainlink price feed
+- [Foundry](https://book.getfoundry.sh/) for compiling and testing
+- [Chainlink](https://docs.chain.link/) for price feed integration
 
-### Build
+## Setup
 
-```shell
-$ forge build
+1. Clone the repository and install dependencies.
+2. Set up Foundry (if not already installed):
+
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
 ```
 
-### Test
 
-```shell
-$ forge test
+## Makefile
+
+A `Makefile` is included to streamline commands for cleaning, building, testing, updating, formatting, deployment, and more. You can use it to execute tasks without needing to remember specific commands. Just run the command you need like this:
+
+```bash
+make <command>
 ```
 
-### Format
+The `Makefile` defines the following commands for quick project management:
 
-```shell
-$ forge fmt
-```
+- **`all`**: Runs **`clean`**, **`remove`**, **`install`**, **`update`**, and **`build`** in sequence.
 
-### Gas Snapshots
+- **`clean`**: Cleans up build artifacts.
 
-```shell
-$ forge snapshot
-```
+- **`remove`**: Clears Git submodules and libraries, then commits the changes.
 
-### Anvil
+- **`install`**: Installs required packages without committing.
+  
+- **`update`**: Updates dependencies.
 
-```shell
-$ anvil
-```
+- **`build`**: Compiles the contracts.
+  
+- **`test-anvil`**: Runs tests in a local Anvil environment.
 
-### Deploy
+- **`test-sepolia`**: Runs tests on Sepolia fork using `SEPOLIA_RPC_URL`.
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+- **`snapshot`**: Generates a snapshot of contract states.
 
-### Cast
+- **`format`**: Formats code according to standards.
 
-```shell
-$ cast <subcommand>
-```
+- **`coverage`**: Runs code coverage.
 
-### Help
+- **`deploy-anvil`**: Deploys contract locally using Anvil.
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+- **`deploy-sepolia`**: Deploys contract to Sepolia network with verification on Etherscan.
+
+## Notes
+This project was developed as part of the `Cyfrin Updraft` course, focusing on `Solidity` and `Ethereum` smart contracts.
