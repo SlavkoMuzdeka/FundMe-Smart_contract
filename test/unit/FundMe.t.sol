@@ -30,9 +30,7 @@ contract FundMeTest is Test {
 
     function testDataFeedSetCorrectly() external {
         address realDataFeed = address(fundMe.getDataFeed());
-        address expectedDataFeed = helperConfig
-            .getConfigByChainId(block.chainid)
-            .dataFeed;
+        address expectedDataFeed = helperConfig.getConfigByChainId(block.chainid).dataFeed;
         assert(realDataFeed == expectedDataFeed);
     }
 
@@ -68,9 +66,7 @@ contract FundMeTest is Test {
         uint256 endingOwnerBalance = fundMe.getOwner().balance;
 
         assert(endingFundMeBalance == 0);
-        assert(
-            endingOwnerBalance == (startingOwnerBalance + startingFundMeBalance)
-        );
+        assert(endingOwnerBalance == (startingOwnerBalance + startingFundMeBalance));
     }
 
     function testWithdrawFromAMultipleFunders() external {
@@ -87,9 +83,6 @@ contract FundMeTest is Test {
         fundMe.withdraw();
 
         assert(address(fundMe).balance == 0);
-        assert(
-            startingFundMeBalance + startingOwnerBalance ==
-                fundMe.getOwner().balance
-        );
+        assert(startingFundMeBalance + startingOwnerBalance == fundMe.getOwner().balance);
     }
 }

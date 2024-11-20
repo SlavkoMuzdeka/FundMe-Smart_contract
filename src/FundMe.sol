@@ -20,10 +20,7 @@ contract FundMe {
     }
 
     function fund() external payable {
-        require(
-            convertFundedValueToDollar(msg.value) >= MINIMUM_USD,
-            FundMe__NotEnoughETH()
-        );
+        require(convertFundedValueToDollar(msg.value) >= MINIMUM_USD, FundMe__NotEnoughETH());
         s_funders.push(msg.sender);
         s_addressToAmountFunded[msg.sender] += msg.value;
     }
@@ -37,18 +34,16 @@ contract FundMe {
         }
 
         s_funders = new address payable[](0);
-        (bool success, ) = i_owner.call{value: address(this).balance}("");
+        (bool success,) = i_owner.call{value: address(this).balance}("");
         require(success);
     }
 
     function getPrice() private view returns (uint256) {
-        (, int256 answer, , , ) = dataFeed.latestRoundData();
+        (, int256 answer,,,) = dataFeed.latestRoundData();
         return uint256(answer);
     }
 
-    function convertFundedValueToDollar(
-        uint256 ethValue
-    ) private view returns (uint256) {
+    function convertFundedValueToDollar(uint256 ethValue) private view returns (uint256) {
         uint256 ethPriceInUsd = getPrice() / 10 ** dataFeed.decimals();
         return (ethValue * ethPriceInUsd) / 10 ** 18;
     }
@@ -57,9 +52,7 @@ contract FundMe {
         return dataFeed;
     }
 
-    function getAddressToAmountFunded(
-        address addr
-    ) external view returns (uint256) {
+    function getAddressToAmountFunded(address addr) external view returns (uint256) {
         return s_addressToAmountFunded[addr];
     }
 

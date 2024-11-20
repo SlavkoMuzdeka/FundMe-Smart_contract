@@ -12,9 +12,7 @@ contract FundMeScript is Script {
 
     function deployFundMe() public returns (FundMe, HelperConfig) {
         HelperConfig helperConfig = new HelperConfig();
-        address dataFeed = helperConfig
-            .getConfigByChainId(block.chainid)
-            .dataFeed;
+        address dataFeed = helperConfig.getConfigByChainId(block.chainid).dataFeed;
 
         vm.startBroadcast();
         FundMe fundMe = new FundMe(dataFeed);
